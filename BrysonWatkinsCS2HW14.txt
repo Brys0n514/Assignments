@@ -1,0 +1,258 @@
+Bryson Watkins
+Chapter 14 HW
+2/26/18
+
+Problem 1
+(#15)
+Create a stop sign
+
+Input:
+```
+import javafx.application.Application;
+import javafx.collections.ObservableList;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
+
+public class Prob1 extends Application{
+@Override
+public void start(Stage primaryStage) {
+	Pane pane = new StackPane();
+	
+	
+	//Creating the Octagon
+	Polygon polygon = new Polygon();
+	pane.getChildren().add(polygon);
+	polygon.setFill(Color.RED);
+	polygon.setStroke(Color.RED);
+	polygon.setRotate(22.3);
+	ObservableList<Double> list = polygon.getPoints();
+	
+	final double WIDTH = 400, HEIGHT = 400;
+	double centerX = WIDTH / 2, centerY = HEIGHT / 2;
+	double radius = Math.min(WIDTH, HEIGHT) * 0.4;
+
+	for (int i = 0; i < 8; i++) {
+		list.add(centerX + radius * Math.cos(2*i*Math.PI / 8));
+		list.add(centerY - radius * Math.sin(2*i*Math.PI / 8));
+	}
+
+	//Creating the Label
+	Label label = new Label("STOP");
+	label.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 60));
+	label.setTextFill(Color.WHITE);
+	pane.getChildren().add(label);
+	
+	
+	
+	Scene scene = new Scene(pane, WIDTH, HEIGHT);
+	primaryStage.setTitle("Stop Sign");
+	primaryStage.setScene(scene);
+	primaryStage.show();
+
+
+
+}
+public static void main(String[] args) {
+	Application.launch(args);
+}
+
+}
+```
+
+Output: N/A
+
+Discussion: This one was both fun and challenging, however I don't know how to show my output.
+
+
+
+Problem #2
+(#12)
+Create a bar chart
+
+Input:
+```
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.stage.Stage;
+ 
+public class BarCharts extends Application {
+    final static String project = "Project--20%";
+    final static String quiz = "Quiz--10%";
+    final static String midterm = "Midterm--30%";
+    final static String last = "Final--40%";
+  
+ 
+    @Override public void start(Stage stage) {
+        stage.setTitle("Bar Chart Sample");
+        final CategoryAxis xAxis = new CategoryAxis();
+        final NumberAxis yAxis = new NumberAxis();
+        final BarChart<String,Number> bc = 
+            new BarChart<String,Number>(xAxis,yAxis);
+        bc.setTitle("Grade Weights");
+        
+ 
+        XYChart.Series series1 = new XYChart.Series();       
+        series1.getData().add(new XYChart.Data(project, 20));
+        series1.getData().add(new XYChart.Data(quiz, 10));
+        series1.getData().add(new XYChart.Data(midterm, 30));
+        series1.getData().add(new XYChart.Data(last, 40));
+     
+    
+        Scene scene  = new Scene(bc,800,600);
+        bc.getData().add(series1);
+        stage.setScene(scene);
+        stage.show();
+    }
+ 
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
+```
+
+Output: N/A
+
+Discussion: This one was easier than I was expecting.
+
+
+
+Problem #3
+(#27)
+Create a clock
+
+Input:
+```
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
+
+public class Clock extends Pane {
+	private int hour;
+	private int second;
+	private int minute;
+	
+	private double w = 250, h = 250;
+	
+	public void ClockPane() {
+		setCurrentTime();
+	}
+	
+	public Clock(int hour, int minute, int second) {
+		this.hour = hour;
+		this.minute = minute;
+		this.second = second;
+		paintClock();
+		
+		
+	}
+
+	public int getHour() {
+		return hour;
+	}
+
+	public void setHour(int hour) {
+		this.hour = hour;
+	}
+
+	public int getSecond() {
+		return second;
+	}
+
+	public void setSecond(int second) {
+		this.second = second;
+	}
+
+	public int getMinute() {
+		return minute;
+	}
+
+	public void setMinute(int minute) {
+		this.minute = minute;
+	}
+
+	public double getW() {
+		return w;
+	}
+
+	public void setW(double w) {
+		this.w = w;
+	}
+
+	public double getH() {
+		return h;
+	}
+
+	public void setH(double h) {
+		this.h = h;
+	}
+
+
+	private void setCurrentTime() {
+		Calendar calender = new GregorianCalendar();
+		
+		this.hour = calender.get(Calendar.HOUR_OF_DAY);
+		this.minute = calender.get(Calendar.MINUTE);
+		this.second = calender.get(Calendar.SECOND);
+		
+		paintClock();
+	}
+	protected void paintClock() {
+	double clockRadius = Math.min(w, h) * .8 * .5;
+	double centerX = w/2;
+	double centerY = h/2;
+	
+	
+	Circle circle = new Circle(centerX, centerY, clockRadius);
+	circle.setFill(Color.WHEAT);
+	circle.setStroke(Color.BLACK);
+	
+	Text t1 = new Text(centerX - 5, centerY - clockRadius + 12, "12");
+	Text t2 = new Text(centerX - clockRadius + 3, centerY + 5, "9");
+	Text t3 = new Text(centerX + clockRadius - 10, centerY + 3, "3");
+	Text t4 = new Text(centerX -3, centerY + clockRadius - 3, "6");
+	
+	double sLength = clockRadius * .8;
+	double secondX = centerX + sLength * Math.sin(second * (2* Math.PI /60));
+	double secondY = centerY - sLength * Math.cos(second * (2* Math.PI /60));
+	Line sLine = new Line(centerX, centerY, secondX, secondY);
+	sLine.setStroke(Color.RED);
+	
+	double mLength = clockRadius * .65;
+	double xMinute = centerX + mLength * Math.sin(minute * (2 * Math.PI / 60));
+	double yMinute = centerY - mLength * Math.cos(minute * (2 * Math.PI / 60));
+	Line mLine = new Line(centerX, centerY, xMinute, yMinute);
+	mLine.setStroke(Color.BLUE);
+	
+	double hLength = clockRadius * .5;
+	double hourX = centerX + hLength * Math.sin((hour % 12 + minute / 60) * (2 * Math.PI / 12));
+	double hourY = centerY - hLength * Math.cos((hour % 12 + minute / 60) * (2 * Math.PI / 12));
+	Line hLine = new Line(centerX, centerY, hourX, hourY);
+	hLine.setStroke(Color.GREEN);
+	
+	getChildren().clear();
+	getChildren().addAll(circle, t1, t2, t3, t4, sLine, mLine, hLine);
+	
+	}
+	
+}
+```
+
+Output: N/A
+
+Discussion: This one was pretty difficult to execute.
